@@ -2,8 +2,11 @@
 FROM maven:3-eclipse-temurin-17 AS build
 # Mavenの3.xとEclipse Temurin 17（OpenJDK 17に基づく）を使い、ビルドステージを開始します。
 
+# 作業ディレクトリを設定
+WORKDIR /app
+
 COPY . .
-# 現在のディレクトリ（.）のすべてのファイルをコンテナ内にコピーします。
+# 現在のディレクトリ（.）のすべてのファイルをコンテナ内の/appディレクトリにコピーします。
 
 RUN mvn clean package -Dmaven.test.skip=true
 # Mavenの`clean package`コマンドを実行して、アプリケーションをビルドします。
@@ -13,8 +16,11 @@ RUN mvn clean package -Dmaven.test.skip=true
 FROM eclipse-temurin:17-alpine
 # 軽量なEclipse Temurin 17（OpenJDK 17）Alpineイメージを使用して、新しいステージを開始します。
 
+# 作業ディレクトリを設定
+WORKDIR /app
+
 COPY --from=build /app/target/ecsite-main-1.0.jar ecsite-main.jar
-# ビルドステージ（`build`）から生成されたJARファイル（`ecsite-main.jar`）をコピーし、実行環境に配置します。
+# ビルドステージ（`build`）から生成されたJARファイル（`ecsite-main-1.0.jar`）をコピーし、実行環境に配置します。
 
 EXPOSE 8080
 # コンテナのポート8080を公開します。このポートを使用して、アプリケーションにアクセスできます。
