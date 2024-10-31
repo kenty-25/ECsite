@@ -3,31 +3,29 @@ spring:
     cache: false
   jmx:
     enabled: false
+
+  # Render環境でのデータベース設定
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/ecdb?serverTimezone=Asia/Tokyo
-    username: root
-    password: root
+    url: ${DATABASE_URL}
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
+
+  # ローカル開発環境の設定（Render環境ではコメントアウト）
+  # datasource:
+  #   driver-class-name: com.mysql.cj.jdbc.Driver
+  #   url: jdbc:mysql://localhost:3306/ecdb?serverTimezone=Asia/Tokyo
+  #   username: root
+  #   password: root
 
 mybatis:
   configuration:
     map-underscore-to-camel-case: true
   mapper-locations:
     - classpath*:/jp/co/internous/ecsite/model/mapper/**/*.xml
-    
+
 logging:
   level:
     org:
       springframework: WARN
-      jp:
-        co:
-          internous:
-            ecsite:
-              model:
-                mapper: DEBUG 
-
-                spring:
-  datasource:
-    url: ${DATABASE_URL}
-    username: ${DB_USER}
-    password: ${DB_PASSWORD}
+    jp.co.internous.ecsite.model.mapper: DEBUG
