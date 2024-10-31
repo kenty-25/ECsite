@@ -13,7 +13,7 @@ RUN mvn clean package -Dmaven.test.skip=true
 FROM eclipse-temurin:17-alpine
 # 軽量なEclipse Temurin 17（OpenJDK 17）Alpineイメージを使用して、新しいステージを開始します。
 
-COPY --from=build /target/ecsite-main.jar ecsite-main.jar
+COPY --from=build /app/target/ecsite-main-1.0.jar ecsite-main.jar
 # ビルドステージ（`build`）から生成されたJARファイル（`ecsite-main.jar`）をコピーし、実行環境に配置します。
 
 EXPOSE 8080
